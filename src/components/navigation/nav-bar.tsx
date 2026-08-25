@@ -7,15 +7,24 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { cn, scrollToSection } from "@/lib/utils";
 import { NAV_ITEMS, CONTAINER_CLASS } from "@/lib/constants";
 import { siteConfig } from "@/config/site";
-import { profile } from "@/data/profile";
 import { ThemeToggle } from "./theme-toggle";
 import { Button } from "@/components/ui/button";
+
+const SUFFIXES = ["dev", "design", "help"];
 
 export function NavBar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const [suffixIndex, setSuffixIndex] = useState(0);
   const prefersReducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSuffixIndex((i) => (i + 1) % SUFFIXES.length);
+    }, 2200);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,9 +76,39 @@ export function NavBar() {
               e.preventDefault();
               handleNavClick("#hero");
             }}
-            className="text-sm font-semibold tracking-tight text-foreground"
+            className="flex flex-col leading-none"
           >
-            {profile.shortName}
+            <span
+              className="flex items-baseline overflow-hidden text-xl font-light tracking-widest"
+              style={{
+                fontFamily: "var(--font-tourney), sans-serif",
+                WebkitTextStroke: "1.5px #22d3ee",
+                background: "linear-gradient(to top, #22d3ee 50%, transparent 50%)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+                textShadow: "0 0 14px rgba(34,211,238,0.35)",
+              }}
+            >
+              ACHYUTH.
+              <span className="relative overflow-hidden" style={{ height: "1.2em", display: "inline-block", textShadow: "none", WebkitTextStroke: "0", color: "#22d3ee" }}>
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={SUFFIXES[suffixIndex]}
+                    initial={{ y: prefersReducedMotion ? 0 : "100%", opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: prefersReducedMotion ? 0 : "-100%", opacity: 0 }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                    style={{ display: "inline-block", textShadow: "none" }}
+                  >
+                    {SUFFIXES[suffixIndex]}
+                  </motion.span>
+                </AnimatePresence>
+              </span>
+            </span>
+            <span className="text-[9px] tracking-widest uppercase text-cyan-500/70 font-mono">
+              Design • Develop • Deploy
+            </span>
           </Link>
 
           <div className="hidden items-center gap-1 md:flex">
