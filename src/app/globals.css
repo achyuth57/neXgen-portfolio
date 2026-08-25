@@ -1,0 +1,190 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f7f7f8;
+  --foreground: #0a0a0a;
+  --muted: #737373;
+  --muted-foreground: #525252;
+  --border: #e4e4e7;
+  --card: #ffffff;
+  --card-foreground: #0a0a0a;
+  --primary: #171717;
+  --primary-foreground: #fafafa;
+  --secondary: #f0f0f2;
+  --secondary-foreground: #171717;
+  --accent: #2563eb;
+  --accent-foreground: #ffffff;
+  --accent-muted: #eff6ff;
+  --code: #f4f4f5;
+  --code-foreground: #18181b;
+  --ring: #2563eb;
+  --radius: 0.625rem;
+  --nav-height: 4rem;
+  --nav-height-scrolled: 3.5rem;
+  --surface-alt: #f0f1f4;
+}
+
+.dark {
+  --background: #08080a;
+  --foreground: #fafafa;
+  --muted: #a1a1aa;
+  --muted-foreground: #71717a;
+  --border: #27272a;
+  --card: #0f0f12;
+  --card-foreground: #fafafa;
+  --primary: #fafafa;
+  --primary-foreground: #09090b;
+  --secondary: #16161a;
+  --secondary-foreground: #fafafa;
+  --accent: #3b82f6;
+  --accent-foreground: #ffffff;
+  --accent-muted: #172554;
+  --code: #121216;
+  --code-foreground: #e4e4e7;
+  --ring: #3b82f6;
+  --surface-alt: #0c0c10;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-muted: var(--accent-muted);
+  --color-code: var(--code);
+  --color-code-foreground: var(--code-foreground);
+  --color-ring: var(--ring);
+  --color-surface-alt: var(--surface-alt);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 8px);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.section-label {
+  @apply text-xs font-medium uppercase tracking-widest text-muted;
+}
+
+.section-title {
+  @apply text-3xl font-semibold tracking-tight text-foreground sm:text-4xl;
+}
+
+.section-description {
+  @apply text-lg text-muted-foreground leading-relaxed;
+}
+
+.gradient-text {
+  @apply bg-gradient-to-r from-foreground to-muted bg-clip-text text-transparent;
+}
+
+.card-surface {
+  @apply rounded-xl border border-border bg-card/80 text-card-foreground backdrop-blur-sm;
+}
+
+.code-surface {
+  @apply rounded-lg bg-code px-3 py-1.5 font-mono text-sm text-code-foreground;
+}
+
+.bg-dot-grid {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--foreground) 12%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+}
+
+.bg-grid-fade {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--foreground) 6%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--foreground) 6%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+.section-alt {
+  background: var(--surface-alt);
+}
+
+.photo-frame {
+  position: relative;
+}
+
+.photo-frame::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 1.1rem;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--accent) 55%, transparent),
+    transparent 40%,
+    transparent 60%,
+    color-mix(in oklab, var(--foreground) 20%, transparent)
+  );
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
